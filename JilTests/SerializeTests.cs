@@ -9730,5 +9730,35 @@ namespace JilTests
                 Assert.Equal(@"{""foo"":0}", res);
             }
         }
+
+
+        [JilPrimitiveWrapper]
+        class _DateTimeSerializedWithoutTimeZone
+        {
+            public DateTime Val { get; set; }
+        }
+
+        IEnumerable<_DateTimeSerializedWithoutTimeZone> _DateTimeSerializedWithoutTimeZoneEnumerable()
+        {
+            yield break;
+        }
+
+
+        [Fact]
+        public void DateTimeSerializedWithoutTimezone()
+        {
+            var dateStr = "2018-09-27T13:30:00";
+            var date = DateTime.Parse(dateStr);
+            Options options = new Options(dateFormat: Jil.DateTimeFormat.ISO8601);
+            var res = JSON.Serialize(
+                new Dictionary<string, _DateTimeSerializedWithoutTimeZone>() {
+                    ["foo"] = new _DateTimeSerializedWithoutTimeZone() { Val = date }
+                }, options);
+
+
+            Assert.Equal(expected: @"{""foo"":""2018-09-27T13:30:00""}", actual: res);
+        }
+
+
     }
 }

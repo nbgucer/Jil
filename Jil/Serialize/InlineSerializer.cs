@@ -878,7 +878,7 @@ namespace Jil.Serialize
                     Emit.LoadLocalAddress(loc); // TextWriter DateTime*
                 }
 
-                Emit.LoadConstant("\\\"yyyy-MM-ddTHH:mm:ssZ\\\"");      // TextWriter DateTime* string
+                Emit.LoadConstant("\\\"yyyy-MM-ddTHH:mm:ss\\\"");      // TextWriter DateTime* string
                 Emit.Call(toString);                                    // TextWriter string
 
                 if (BuildingToString)
