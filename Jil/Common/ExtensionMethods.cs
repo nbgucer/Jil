@@ -242,6 +242,26 @@ namespace Jil.Common
             return new PeekSupportingTextReader(inner);
         }
 
+        public static int GetEnumValueAsInt(this Type enumType, object enumVal)
+        {
+            var field = enumType.GetFields().Single(f => f.Name == Enum.GetName(enumType, enumVal));
+
+            var enumMember = field.GetCustomAttribute<System.Runtime.Serialization.EnumMemberAttribute>();
+
+            var enumValues = Enum.GetName(enumType, enumVal);
+
+
+            var result = Enum.GetValues(enumType)
+                .Cast<object>()
+                .ToDictionary(k => k.ToString(), v => {
+                    int.TryParse(v.ToString(), out int res);
+                    return res;
+                })
+                .FirstOrDefault(f => f.Key == enumValues).Value;
+
+            return result;
+        }
+
         public static string GetEnumValueName(this Type enumType, object enumVal)
         {
             var field = enumType.GetFields().Single(f => f.Name == Enum.GetName(enumType, enumVal));

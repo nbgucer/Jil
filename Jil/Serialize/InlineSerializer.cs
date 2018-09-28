@@ -3662,11 +3662,10 @@ namespace Jil.Serialize
             {
                 var val = values[min + i];
                 var label = labels[(int)i];
-                var asStr = enumType.GetEnumValueName(val);
-                var escapedString = "\"" + asStr.JsonEscape(JSONP) + "\"";
+                var asInt = enumType.GetEnumValueAsInt(val);
 
                 Emit.MarkLabel(label);      // TextWriter?
-                WriteString(escapedString); // TextWriter?
+                WriteString(asInt.ToString()); // TextWriter?
                 Emit.Branch(done);          // TextWriter?
             }
 
