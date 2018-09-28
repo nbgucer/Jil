@@ -265,10 +265,11 @@ namespace Jil.Serialize
                 fracEnd = 20;
             }
 
-            buffer[fracEnd] = 'Z';
-            buffer[fracEnd + 1] = '"';
+            //buffer[fracEnd] = 'Z';
+            buffer[fracEnd] = '"';
 
-            writer.Write(buffer, 0, fracEnd + 2);
+            //writer.Write(buffer, 0 , fracEnd +2);
+            writer.Write(buffer, 0, fracEnd + 1);
         }
 
         static readonly MethodInfo CustomISO8601WithOffsetToString_ThunkWriter = typeof(Methods).GetMethod("_CustomISO8601WithOffsetToString_ThunkWriter", BindingFlags.Static | BindingFlags.NonPublic);
