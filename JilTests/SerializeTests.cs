@@ -6544,7 +6544,7 @@ namespace JilTests
 #else
                 const string EXPECTED_VALUE = "{\"NotSoSecretName\":314159,\"FakeName\":\"Really RealName\",\"Plain\":\"hello world\"}";
 #endif
-                
+
                 Assert.Equal(EXPECTED_VALUE, res);
             }
         }
@@ -9233,7 +9233,7 @@ namespace JilTests
             [JilDirective(TreatEnumerationAs = typeof(int))]
             public _EmptyEnum A;
         }
-        
+
         [Fact]
         public void EmptyEnum()
         {
@@ -9405,7 +9405,7 @@ namespace JilTests
 
             public bool Remove(KeyValuePair<int, int> item)
             {
-                if(item.Key == Key && item.Value == Value)
+                if (item.Key == Key && item.Value == Value)
                 {
                     Clear();
                     return true;
@@ -9416,7 +9416,7 @@ namespace JilTests
 
             public bool Remove(int key)
             {
-                if(Key == key)
+                if (Key == key)
                 {
                     Clear();
                     return true;
@@ -9427,7 +9427,7 @@ namespace JilTests
 
             public bool TryGetValue(int key, out int value)
             {
-                if(Key == key)
+                if (Key == key)
                 {
                     value = Value;
                     return true;
@@ -9501,7 +9501,7 @@ namespace JilTests
                 Assert.Equal("{\"Foo\":\"Bar\"}", json);
             }
         }
-        
+
 
         struct _Issue258
         {
@@ -9534,7 +9534,7 @@ namespace JilTests
             Assert.Equal("null", JSON.Serialize<_Issue270?>(null));
         }
 
-        
+
         [Flags]
         private enum _Issue272Enum { Zero, One, Two }
 
@@ -9729,6 +9729,35 @@ namespace JilTests
                 var res = JSON.Serialize(new Dictionary<string, _Issue275>() { ["foo"] = new _Issue275() });
                 Assert.Equal(@"{""foo"":0}", res);
             }
+        }
+
+        [JilPrimitiveWrapper]
+        public class _EnumSerializedAsInt
+        {
+            _Enums Val { get; set; }
+        }
+
+        IEnumerable<_EnumSerializedAsInt> _EnumSerializedAsIntEnumerable()
+        {
+            yield break;
+        }
+
+
+
+
+        [Fact]
+        public void EnumSerializedAsInt()
+        {
+            var dict = new Dictionary<string, _Enums>()
+            {
+                ["foo"] = _Enums.A
+                //["foo"] = new _EnumSerializedAsInt() { Val = _Enums.A }
+            };
+
+            var serialized = JSON.Serialize(dict);
+
+
+            Assert.Equal(expected: @"{""foo"":1}", actual: serialized);
         }
     }
 }
